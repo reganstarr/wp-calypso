@@ -17,8 +17,8 @@ module.exports = function() {
 	}
 
 	if ( config.isEnabled( 'manage/plugins/setup' ) ) {
-		page( '/plugins/setup', controller.siteSelection, controller.navigation, pluginsController.setupPlugins );
 		page( '/plugins/setup/:site', controller.siteSelection, controller.navigation, pluginsController.setupPlugins );
+		page( '/plugins/setup', controller.siteSelection, controller.navigation, pluginsController.setupPlugins );
 	}
 
 	if ( config.isEnabled( 'manage/plugins' ) ) {
