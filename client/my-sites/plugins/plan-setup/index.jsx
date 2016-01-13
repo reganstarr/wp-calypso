@@ -40,15 +40,22 @@ module.exports = React.createClass( {
 		);
 	},
 
-	runInstall() {
+	componentDidMount: function() {
+		this.runInstall();
+	},
+
+	runInstall: function() {
 		let steps = PluginInstallation.start( {
 			site: this.props.selectedSite,
 			plugins: [ 'vaultpress' ]
 		} );
 
 		steps.on( 'data', ( step ) => {
-			console.log( step );
-			// Update component state
+			if ( 'undefined' === typeof step.name ) {
+				this.setState( { status: 'finished' } );
+			} else {
+				this.setState( { status: step.name } );
+			}
 		} );
 	},
 
@@ -59,8 +66,6 @@ module.exports = React.createClass( {
 		if ( ! this.props.selectedSite.canManage() ) {
 			return this.renderNoManageWarning();
 		}
-		this.runInstall();
-
 		return (
 			<div>
 				<h1>Setting up your plan…</h1>
