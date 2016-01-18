@@ -238,24 +238,29 @@ User.prototype.set = function( attributes ) {
 	return changed;
 };
 
-User.prototype.changeUser = function( username, password, callback ) {
-	if ( config.isEnabled( 'support-user' ) ) {
-		wpcom.changeUser( username, password, function( error ) {
-			if ( ! error ) {
-				this.fetch();
+/**
+ * Forces a re-fetch - waiting until any currently in progress fetch is complete
+ * @return {Promise}  A promise that fulfills once the queued fetch is complete
+ */
+User.prototype.queueFetch = function() {
+	return new Promise( ( resolve ) => {
+		const tryFetch = () => {
+			if ( this.fetching ) {
+				this.once( 'change', () => {
+					tryFetch();
+				} );
+				return;
 			}
-			callback( error );
-		}.bind( this ) );
-	}
-};
 
-User.prototype.restoreUser = function() {
-	if ( config.isEnabled( 'support-user' ) ) {
-		wpcom.restoreUser();
+			this.once( 'change', () => {
+				resolve();
+			} );
+			this.fetch();
+		}
 
-		this.fetch();
-	}
-};
+		tryFetch();
+	} );
+}
 
 /**
  * Expose `User`
