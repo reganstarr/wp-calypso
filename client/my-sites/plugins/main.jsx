@@ -356,8 +356,7 @@ const PluginsMain = React.createClass( {
 		const selectedSite = this.props.sites.getSelectedSite();
 
 		if ( this.state.accessError ) {
-			if ( this.state.accessError.abtest &&
-				this.state.accessError.abtest === 'nudge' ) {
+			if ( this.state.accessError.abtest === 'nudge' ) {
 				return (
 					<Main>
 						<SidebarNavigation />
