@@ -99,7 +99,7 @@ module.exports = React.createClass( {
 						</span>
 					}
 				</a>
-				{ this.props.indicator ? <SiteIndicator site={ site } /> : null }
+				{ this.props.indicator ? <SiteIndicator site={ site } onSelect={ this.props.onSelect } /> : null }
 			</div>
 		);
 	}
