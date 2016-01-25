@@ -353,22 +353,23 @@ const PluginsMain = React.createClass( {
 	},
 
 	render() {
+		const selectedSite = this.props.sites.getSelectedSite();
+
 		if ( this.state.accessError ) {
+			if ( this.state.accessError.abtest &&
+				this.state.accessError.abtest === 'nudge' ) {
+				return (
+					<Main>
+						<SidebarNavigation />
+						<PlanNudge currentProductId={ selectedSite.plan.product_id } selectedSiteSlug={ selectedSite.slug } />
+					</Main>
+				);
+			}
 			return (
 				<Main>
 					<SidebarNavigation />
 					<EmptyContent { ...this.state.accessError } />
 					{ this.state.accessError.featureExample ? <FeatureExample>{ this.state.accessError.featureExample }</FeatureExample> : null }
-				</Main>
-			);
-		}
-
-		const selectedSite = this.props.sites.getSelectedSite();
-		if ( abtest( 'businessPluginsNudge' ) === 'nudge' && selectedSite && ! selectedSite.jetpack && ! isBusiness( selectedSite.plan ) ) {
-			return (
-				<Main>
-					<SidebarNavigation />
-					<PlanNudge currentProductId={ selectedSite.plan.product_id } selectedSiteSlug={ selectedSite.slug } />
 				</Main>
 			);
 		}
@@ -379,7 +380,7 @@ const PluginsMain = React.createClass( {
 					<SidebarNavigation />
 					<JetpackManageErrorPage
 						template="optInManage"
-						site={ this.props.sites.getSelectedSite() }
+						site={ selectedSite }
 						title={ this.translate( 'Looking to manage this site\'s plugins?' ) }
 						section="plugins"
 						featureExample={ this.getMockPluginItems() } />
