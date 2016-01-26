@@ -34,6 +34,11 @@ var staticFiles = [
 
 var chunksByPath = {};
 
+i18n.initialize();
+ReactInjection.Class.injectMixin( i18n.mixin );
+const LayoutLoggedOutDesign = require( 'layout/logged-out-design' );
+const LayoutLoggedOutDesignElement = React.createFactory( LayoutLoggedOutDesign )();
+
 sections.forEach( function( section ) {
 	section.paths.forEach( function( path ) {
 		chunksByPath[ path ] = section.name;
@@ -383,12 +388,6 @@ module.exports = function() {
 			// the user is probably logged in
 			renderLoggedInRoute( req, res );
 		} else {
-			i18n.initialize();
-			ReactInjection.Class.injectMixin( i18n.mixin );
-
-			const LayoutLoggedOutDesign = require( 'layout/logged-out-design' );
-			const LayoutLoggedOutDesignElement = React.createFactory( LayoutLoggedOutDesign )();
-
 			const context = getDefaultContext( req );
 
 			if ( config.isEnabled( 'server-side-rendering' ) ) {
