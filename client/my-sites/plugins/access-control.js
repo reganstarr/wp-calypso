@@ -61,7 +61,7 @@ const getMockBusinessPluginItems = () => {
 	} );
 }
 
-const getWpcomPluginPageError = ( siteSlug ) => {
+const getWpcomPluginPageError = ( siteSlug = '' ) => {
 	return {
 		title: i18n.translate( 'Want to add a store to your site?' ),
 		line: i18n.translate( 'Support for Shopify, Ecwid, and Gumroad is now available for WordPress.com Business.' ),
