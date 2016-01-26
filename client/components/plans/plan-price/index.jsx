@@ -9,6 +9,9 @@ var React = require( 'react' ),
  */
 import { abtest } from 'lib/abtest';
 
+var JetpackPlanPrice = require( 'my-sites/plans/jetpack-plan-price' ),
+	WpcomPlanPrice = require( 'my-sites/plans/wpcom-plan-price' );
+
 module.exports = React.createClass( {
 	displayName: 'PlanPrice',
 
@@ -64,28 +67,19 @@ module.exports = React.createClass( {
 
 		if ( site && site.jetpack ) {
 			return (
-				<div className="plan-price">
-					<span className="jetpack-price">{ plan.formatted_original_price }</span>
-					<small className="plan-price__billing-period">
-						{ this.translate( 'cost of individual plugins' ) }
-					</small>
-					<span className="jetpack-price">{ this.getPrice() }</span>
-					<small className="plan-price__billing-period">
-						{ hasDiscount ? this.translate( 'for first year' ) : plan.bill_period_label } (
-						{ plan.saving }
-						{ this.translate( '% savings', { context: 'A percentage discount, eg: 20% savings' } ) })
-					</small>
-				</div>
-			);
-		} else {
-			return (
-				<div className={ hasDiscount ? "plan-price plan-price__discount" : "plan-price" }>
-					<span>{ this.getPrice() }</span>
-					<small className="plan-price__billing-period">
-						{ periodLabel }
-					</small>
-				</div>
+				<JetpackPlanPrice
+					getPrice={ this.getPrice }
+					hasDiscount={ hasDiscount }
+					plan={ plan } />
 			);
 		}
+
+		return (
+			<WpcomPlanPrice
+				getPrice={ this.getPrice }
+				hasDiscount={ hasDiscount }
+				periodLabel={ periodLabel }
+				plan={ plan } />
+		);
 	}
 } );
