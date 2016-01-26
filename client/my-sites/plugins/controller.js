@@ -21,8 +21,6 @@ var route = require( 'lib/route' ),
 	PluginBrowser = require( './plugins-browser' ),
 	titleActions = require( 'lib/screen-title/actions' ),
 	renderWithReduxStore = require( 'lib/react-helpers' ).renderWithReduxStore,
-	PlanSetup = require( './plan-setup' ),
-	PlanSetupInstructions = require( './plan-setup/instructions' ),
 	allowedCategoryNames = [ 'new', 'popular', 'featured' ];
 
 /**
@@ -161,16 +159,6 @@ function renderPluginsBrowser( context, siteUrl ) {
 	);
 }
 
-function renderCantFileEdit() {
-	let site = sites.getSelectedSite();
-	ReactDom.render(
-		React.createElement( PlanSetupInstructions, {
-			selectedSite: site,
-		} ),
-		document.getElementById( 'primary' )
-	);
-}
-
 function renderProvisionPlugins() {
 	let site = sites.getSelectedSite();
 	ReactDom.render(
@@ -225,11 +213,6 @@ controller = {
 			return;
 		}
 
-		if ( ! selectedSite.canUpdateFiles ) {
-			renderCantFileEdit();
-			return;
-		}
-
 		renderProvisionPlugins();
 	},
 
@@ -252,11 +235,7 @@ controller = {
 			}
 		}
 		next();
-	},
-	setupPlugins: function() {
-		renderProvisionPlugins();
 	}
-
 };
 
 module.exports = controller;

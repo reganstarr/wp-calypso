@@ -8,6 +8,7 @@ import React from 'react'
 */
 import JetpackManageErrorPage from 'my-sites/jetpack-manage-error-page';
 import PluginInstallation from './installation';
+import PlanSetupInstructions from './instructions';
 
 module.exports = React.createClass( {
 
@@ -18,6 +19,12 @@ module.exports = React.createClass( {
 			keys: {},
 			status: 'not-started', // installing $plugin, configuring $plugin, finished, error
 		};
+	},
+
+	renderCantFileEdit() {
+		return (
+			<PlanSetupInstructions selectedSite={ this.props.selectedSite } />
+		);
 	},
 
 	renderNoManageWarning() {
@@ -40,11 +47,11 @@ module.exports = React.createClass( {
 		);
 	},
 
-	componentDidMount: function() {
+	componentDidMount() {
 		this.runInstall();
 	},
 
-	runInstall: function() {
+	runInstall() {
 		let steps = PluginInstallation.start( {
 			site: this.props.selectedSite,
 			plugins: [ 'vaultpress' ]
@@ -66,6 +73,10 @@ module.exports = React.createClass( {
 		if ( ! this.props.selectedSite.canManage() ) {
 			return this.renderNoManageWarning();
 		}
+		if ( ! this.props.selectedSite.canUpdateFiles ) {
+			return this.renderCantFileEdit();
+		}
+
 		return (
 			<div>
 				<h1>Setting up your plan…</h1>
