@@ -20,6 +20,7 @@
 		"login": false,
 
 		"ad-tracking": true,
+		"desktop-promo": false,
 		"community-translator": true,
 		"help": false,
 		"mailing-lists/unsubscribe": true,
@@ -39,6 +40,7 @@
 		"manage/plugins": true,
 		"manage/plugins/browser": true,
 		"manage/plugins/cache": false,
+		"manage/plugins/setup": false,
 		"manage/posts": true,
 		"manage/security": true,
 		"manage/sharing": true,

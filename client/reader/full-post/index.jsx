@@ -33,11 +33,13 @@ var analytics = require( 'analytics' ),
 	SiteState = require( 'lib/reader-site-store/constants' ).state,
 	SiteStore = require( 'lib/reader-site-store' ),
 	SiteStoreActions = require( 'lib/reader-site-store/actions' ),
+	FollowButton = require( 'reader/follow-button' ),
 	utils = require( 'reader/utils' ),
 	LikeHelper = require( 'reader/like-helper' ),
 	stats = require( 'reader/stats' ),
 	PostExcerptLink = require( 'reader/post-excerpt-link' ),
 	ShareButton = require( 'reader/share' ),
+	ShareHelper = require( 'reader/share/helper' ),
 	DiscoverHelper = require( 'reader/discover/helper' ),
 	DiscoverVisitLink = require( 'reader/discover/visit-link' ),
 	readerRoute = require( 'reader/route' );
@@ -196,13 +198,17 @@ FullPostView = React.createClass( {
 
 					<PostErrors post={ post } />
 
-					<Site site={ siteish }
-						href={ post.site_URL }
-						onSelect={ this.pickSite }
-						onClick={ this.handleSiteClick } />
+					<div className="full-post__header">
+						<Site site={ siteish }
+							href={ post.site_URL }
+							onSelect={ this.pickSite }
+							onClick={ this.handleSiteClick } />
+
+						<FollowButton siteUrl={ post.site_URL } />
+					</div>
 
 					{ hasFeaturedImage
-						? <div className="full-post__featured-image test">
+						? <div className="full-post__featured-image">
 								<img src={ this.props.post.canonical_image.uri } height={ this.props.post.canonical_image.height } width={ 	this.props.post.canonical_image.width } />
 							</div>
 						: null }
@@ -293,6 +299,7 @@ FullPostDialog = React.createClass( {
 			site = this.props.site,
 			shouldShowComments = false,
 			shouldShowLikes = false,
+			shouldShowShare = false,
 			buttons = [
 				{
 					label: this.translate( 'Back', { context: 'Go back in browser history' } ),
@@ -304,6 +311,7 @@ FullPostDialog = React.createClass( {
 		if ( post && ! post._state ) {
 			shouldShowComments = PostCommentHelper.shouldShowComments( post );
 			shouldShowLikes = LikeHelper.shouldShowLikes( post );
+			shouldShowShare = ShareHelper.shouldShowShare( post );
 
 			buttons.push( <PostOptions key="post-options" post={ post } site={ site } onBlock={ this.props.onClose } /> );
 
@@ -315,7 +323,9 @@ FullPostDialog = React.createClass( {
 				buttons.push( <CommentButton key="comment-button" commentCount={ this.props.commentCount } onClick={ this.handleCommentButtonClick } tagName="div" /> );
 			}
 
-			buttons.push( <ShareButton post={ post } position="bottom left" tagName="div" /> );
+			if ( shouldShowShare ) {
+				buttons.push( <ShareButton post={ post } position="bottom left" tagName="div" /> );
+			}
 		}
 
 		buttons = buttons.map( function( button ) {
