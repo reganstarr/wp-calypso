@@ -290,7 +290,7 @@ module.exports = React.createClass( {
 		}
 
 		return (
-			 <li className={ this.itemLinkClass( [ '/domains' ], 'domains' ) }>
+			<li className={ this.itemLinkClass( [ '/domains' ], 'domains' ) }>
 				<a onClick={ this.onNavigate } href={ domainsLink } target={ target }>
 					<Gridicon icon="cart" size={ 24 } />
 					<span className="menu-link-text">{ this.translate( 'Domains' ) }</span>
@@ -327,13 +327,7 @@ module.exports = React.createClass( {
 			linkClass += ' is-paid-plan';
 		}
 
-		let planName = site.plan.product_name_short,
-			labelClass = 'plan-name';
-
-		if ( abtest( 'plansUpgradeButton' ) === 'button' && productsValues.isFreePlan( site.plan ) ) {
-			labelClass = 'add-new';
-			planName = 'Upgrade'; // TODO: translate this string if the test is removed
-		}
+		let planName = site.plan.product_name_short;
 
 		if ( productsValues.isFreeTrial( site.plan ) ) {
 			planName = this.translate( 'Trial', {
@@ -347,7 +341,7 @@ module.exports = React.createClass( {
 					<Gridicon icon="clipboard" size={ 24 } />
 					<span className="menu-link-text">{ this.translate( 'Plan', { context: 'noun' } ) }</span>
 				</a>
-				<a href={ planLink } className={ labelClass } onClick={ this.trackUpgradeClick }>{ planName }</a>
+				<a href={ planLink } className="plan-name" onClick={ this.trackUpgradeClick }>{ planName }</a>
 			</li>
 		);
 	},

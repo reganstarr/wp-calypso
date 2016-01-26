@@ -61,14 +61,6 @@ module.exports = {
 		},
 		defaultVariation: 'yearly'
 	},
-	plansUpgradeButton: {
-		datestamp: '20160118',
-		variations: {
-			original: 50,
-			button: 50
-		},
-		defaultVariation: 'original'
-	},
 	checkoutMasterbar: {
 		datestamp: '20160126',
 		variations: {
