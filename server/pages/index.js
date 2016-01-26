@@ -384,8 +384,7 @@ module.exports = function() {
 			renderLoggedInRoute( req, res );
 		} else {
 			i18n.initialize();
-			console.log( ReactInjection.Class.injectMixin( i18n.mixin ) );
-			console.log( 'i18n init done' );
+			ReactInjection.Class.injectMixin( i18n.mixin );
 
 			const LayoutLoggedOutDesign = require( 'layout/logged-out-design' );
 			const LayoutLoggedOutDesignElement = React.createFactory( LayoutLoggedOutDesign )();
