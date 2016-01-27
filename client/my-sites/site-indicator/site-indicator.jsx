@@ -4,6 +4,7 @@
 import React from 'react';
 import config from 'config';
 import classNames from 'classnames';
+import noop from 'lodash/utility/noop';
 
 /**
  * Internal dependencies
@@ -15,6 +16,12 @@ import analytics from 'analytics';
 
 export default React.createClass( {
 	displayName: 'SiteIndicator',
+
+	getDefaultProps() {
+		return {
+			onSelect: noop
+		};
+	},
 
 	getInitialState() {
 		return { expand: false };
@@ -135,9 +142,7 @@ export default React.createClass( {
 
 	handlePluginsUpdate( event ) {
 		window.scrollTo( 0, 0 );
-		if ( this.props.onSelect ) {
-			this.props.onSelect( event );
-		}
+		this.props.onSelect( event );
 		analytics.ga.recordEvent( 'Site-Indicator', 'Clicked updates available link to plugins updates', 'Total Updates', this.props.site.update && this.props.site.update.total );
 	},
 
