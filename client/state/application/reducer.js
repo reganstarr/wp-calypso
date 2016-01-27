@@ -8,7 +8,7 @@ import { combineReducers } from 'redux';
  */
 import { CONNECTION_LOST, CONNECTION_RESTORED } from 'state/action-types';
 
-export function isOnline( state = 'CHECKING', action ) {
+export function connectionState( state = 'CHECKING', action ) {
 	switch ( action.type ) {
 		case CONNECTION_LOST:
 			state = 'OFFLINE';
@@ -22,5 +22,5 @@ export function isOnline( state = 'CHECKING', action ) {
 }
 
 export default combineReducers( {
-	isOnline
+	connectionState
 } );
