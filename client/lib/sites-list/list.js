@@ -93,6 +93,7 @@ SitesList.prototype.fetch = function() {
 			return;
 		}
 		this.sync( data );
+		this.fetching = false;
 	}.bind( this ) );
 };
 
@@ -111,9 +112,8 @@ SitesList.prototype.sync = function( data ) {
 			debug( 'SitesList changed via update' );
 			this.emit( 'change' );
 		}
-		this.fetching = false;
-		store.set( 'SitesList', sites );
 	}
+	store.set( 'SitesList', sites );
 }
 
 /**
@@ -372,7 +372,11 @@ SitesList.prototype.isSelected = function( site ) {
  * @api private
  */
 SitesList.prototype.setRecentlySelectedSite = function( siteID ) {
-	if ( ! siteID ) {
+	if ( ! this.recentlySelected.length ) {
+		this.recentlySelected = PreferencesStore.get( 'recentSites' ) || [];
+	}
+
+	if ( ! siteID || ! this.initialized ) {
 		return;
 	}
 
@@ -394,7 +398,7 @@ SitesList.prototype.setRecentlySelectedSite = function( siteID ) {
 };
 
 SitesList.prototype.getRecentlySelected = function() {
-	if ( ! this.recentlySelected.length ) {
+	if ( ! this.recentlySelected.length || ! this.initialized ) {
 		return false;
 	}
 
